@@ -3,7 +3,7 @@ import axios from "axios";
 import 'dotenv/config';
 
 const app = express();
-const port = 5000;
+const port = 5003;
 const authorization = "Bearer " + process.env.CLIMATIQ_API_KEY;
 
 app.use(express.json());
