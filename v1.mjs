@@ -19,13 +19,13 @@ app.get("/co2", async (req, res) => {
         return;
     }
 
-    let response = await axios.get(DISTANCE_API_URI + "/geocoding?location=" + from);
+    let response = await axios.get(DISTANCE_API_URI + "/v1/geocoding?location=" + from);
     const coordFrom = response.data.lat + "," + response.data.lon;
 
-    response = await axios.get(DISTANCE_API_URI + "/geocoding?location=" + to);
+    response = await axios.get(DISTANCE_API_URI + "/v1/geocoding?location=" + to);
     const coordTo = response.data.lat + "," + response.data.lon;
 
-    response = await axios.get(DISTANCE_API_URI + "/distance?from=" + coordFrom + "&to=" + coordTo);
+    response = await axios.get(DISTANCE_API_URI + "/v1/distance?from=" + coordFrom + "&to=" + coordTo);
     const distance = response.data.distance;
 
     const query = {
