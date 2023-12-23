@@ -10,20 +10,24 @@ const DISTANCE_API_URI = process.env.DISTANCE_API_URI;
 app.get("/co2/:long1/:lat1/:long2/:lat2", async (req, res) => {
   
   /*
-  const distance = Math.acos(
-                    Math.sin(req.params.lat1)*Math.sin(req.params.lat2) + 
-                    Math.cos(req.params.lat1)*Math.cos(req.params.lat2) * 
-                    Math.cos(req.params.long2 - req.params.long1)
-                   )*6371;
-  //https://community.fabric.microsoft.com/t5/Desktop/How-to-calculate-lat-long-distance/td-p/1488227
-  */
+  let dLat = (req.params.lat2-req.params.lat1) * (Math.PI / 180.0);
+  let dLon = (req.params.long2-req.params.long1) * (Math.PI / 180.0);
+  var R = 6371;
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(req.params.lat1 * (Math.PI / 180.0)) * Math.cos(req.params.lat2 * (Math.PI / 180.0)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  let distance = R * c;*/
+
   
   const coordFrom = req.params.lat1 + "," + req.params.long1;
   const coordTo = req.params.lat2 + "," + req.params.long2;
 
-  let response = await axios.get(DISTANCE_API_URI + "/v1/distance?from=" + coordFrom + "&to=" + coordTo);
+  let response = await axios.get(DISTANCE_API_URI + "/v1/distance?coordFrom=" + coordFrom + "&coordTo=" + coordTo);
   const distance = response.data.distance;
-
+  
   const query = {
     emission_factor: {
       activity_id:
